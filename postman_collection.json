@@ -1,0 +1,171 @@
+{
+  "info": {
+    "name": "Equation Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Store equation (3x + 2y - z)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/store",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equation\": \"3x + 2y - z\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Store equation (x^2 + y^2 - 4)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/store",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equation\": \"x^2 + y^2 - 4\"\n}"
+        }
+      }
+    },
+    {
+      "name": "3. List equations",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/equations"
+      }
+    },
+    {
+      "name": "4. Evaluate equation 1 (expect 11)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/1/evaluate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"variables\": { \"x\": 2, \"y\": 3, \"z\": 1 }\n}"
+        }
+      }
+    },
+    {
+      "name": "5. Error: invalid syntax (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/store",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equation\": \"3 + * 4\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6. Error: missing variable (422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/1/evaluate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"variables\": { \"x\": 2 }\n}"
+        }
+      }
+    },
+    {
+      "name": "7. Error: unknown equation (404)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/999/evaluate",
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      }
+    },
+    {
+      "name": "8. Pasted symbols: x² + y² − 4 (expect 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/store",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equation\": \"x² + y² − 4\"\n}"
+        }
+      }
+    },
+    {
+      "name": "9. Store 0.1 + 0.2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equations/store",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"equation\": \"0.1 + 0.2\"\n}"
+        }
+      }
+    },
+    {
+      "name": "10. Delete equation 1 (expect 204)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/equations/1"
+      }
+    },
+    {
+      "name": "11. Delete equation 1 again (expect 404)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/equations/1"
+      }
+    }
+  ]
+}
